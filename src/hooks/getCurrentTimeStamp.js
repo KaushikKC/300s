@@ -20,7 +20,7 @@ const getCurrentTimeStamp = () => {
       fetchTimestamp();
     }, [rounds]);
     
-    console.log("currentTimestamp",currentTimestamp)
+    // console.log("currentTimestamp",currentTimestamp)
     return {currentTimestamp };
   };
 

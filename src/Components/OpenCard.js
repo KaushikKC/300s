@@ -4,11 +4,12 @@ import { getContract } from '../hooks/CustomHooks';
 import img from '../Images/arrow-left.svg'
 const ethers = require("ethers")
 
-function OpenCard({ card, signer,epoch }) {
+function OpenCard({ card, signer,epoch, hasEntered, hasEnteredUp, hasEnteredDown}) {
   const [flip, setFlip] = useState(false);
   const [bet, setBet] = useState();
   const [amount, setAmount] = useState();
   const {Contract} = getContract();
+  // console.log("enterd",hasEntered)
 
   const betposition = (position) => {
     setFlip(!flip)

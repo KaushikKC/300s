@@ -38,7 +38,7 @@ function Timer() {
   // const {CurrentTimestamp } = getCurrentTimeStamp();
   // const [timestamp, setTimestamp] = useState(CurrentTimestamp)
   // const {rounds} = useSortedRounds()
-  console.log("CurrentROund ",CurrentRound)
+  // console.log("CurrentROund ",CurrentRound)
   let CurrentTimeStamp = parseInt(CurrentRound?.lockTimestamp._hex)
 
  
@@ -123,7 +123,7 @@ const getSecondsRemainingToNow = (timestamp) => {
 
 const useCountdown = ( timestamp) => {
   const timerCancelRef = useRef(null)
-  console.log("timestamp",timestamp)
+  // console.log("timestamp",timestamp)
   let current = timestamp - getNow()
   // const [secondsRemaining, setSecondsRemaining] = useState(timestamp)
   const [secondsRemaining, setSecondsRemaining] = useState(current)
@@ -131,7 +131,7 @@ const useCountdown = ( timestamp) => {
     setSecondsRemaining(current)
   },[current,timestamp,CurrentTimeStamp])
 
-  console.log("secondsRemaining",secondsRemaining)
+  // console.log("secondsRemaining",secondsRemaining)
   const [isPaused, setIsPaused] = useState(false)
   // const isWindowVisible = useIsWindowVisible()
 
@@ -178,7 +178,7 @@ const useCountdown = ( timestamp) => {
   const { secondsRemaining} = useCountdown(CurrentTimeStamp != NaN && Number(CurrentTimeStamp));
     // return { secondsRemaining}
 // },[CurrentTimeStamp])
-  console.log("CurrentTimestamp", CurrentTimeStamp)
+  // console.log("CurrentTimestamp", CurrentTimeStamp)
   
   // console.log("secondsRemaining ",secondsRemaining)
   
@@ -190,7 +190,7 @@ const useCountdown = ( timestamp) => {
     <StyledTimer>
         <div className="timer flex w-[110px] px-3 rounded-xl bg-slate-300 absolute top-2 h-[30px]">
           {/* {timerSeconds > 0 ? ( */}
-            <p className="value">{secondsRemaining < 0 ? 0 : secondsRemaining } </p>
+            <p className="value">{secondsRemaining < 0 ? "Closing" : secondsRemaining } </p>
 {/* //           ) : (
 //             <p className="value">0</p>
 //           )

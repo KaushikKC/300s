@@ -38,15 +38,15 @@ const useSortedRounds = () => {
       }
 
       setRounds([
-        { epoch: epoch + 1 },
         { epoch: epoch + 2 },
+        { epoch: epoch + 1 },
         ...fetchedRounds,
       ]);
     };
 
     fetchRounds();
   }, [epoch]);
-
+  // console.log("rounds",rounds)
   return { rounds };
     // const [rounds, setRounds] = useState([]);
     // // let rounds = [];
@@ -75,6 +75,20 @@ const useSortedRounds = () => {
     // // console.log("roundsof2",rounds )
 
     // return {rounds};
+}
+
+const getBets = (epoch, address) => {
+  const [bet,setBet] = useState()
+
+  useEffect(() => {
+    const fetchBets = async () => {
+      let betinfo = await Contract.ledger(epoch,address)
+      setBet(betinfo)
+    }
+    fetchBets()
+  })
+
+  return {bet}
 }
 
 const getContract = () => {
@@ -131,6 +145,6 @@ const getProvider = () => {
     return {provider};
 }
 
-export {usecurrentEpoch,useSortedRounds,getContract, getProvider};
+export {usecurrentEpoch,useSortedRounds,getContract, getProvider,getBets};
 // export default useSortedRounds;
 // export default usecurrentEpoch;

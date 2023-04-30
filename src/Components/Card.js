@@ -1,11 +1,18 @@
 import React from 'react'
-import { usecurrentEpoch } from '../hooks/CustomHooks';
+import { getBets, usecurrentEpoch } from '../hooks/CustomHooks';
 import LiveCard from './LiveCard'
 import OpenCard from './OpenCard'
 import PastCard from './PastCard'
 import SoonRoundCard from './SoonRoundCard';
 
-function Card({ card,signer}) {
+function Card({ card,signer,signerAddress}) {
+  const ledger = getBets(parseInt(card.epoch._hex),signerAddress)
+  const hasEntered = ledger ? parseInt(ledger.amount?._hex) != 0 : false
+  const hasEnteredUp = hasEntered && ledger.position === 0;
+  const hasEnteredDown = hasEntered && ledger.position === 1;
+  // console.log("card",card)
+  // console.log("ledger",ledger)
+  // console.log("hasEntered",hasEntered)
   const {epoch} = usecurrentEpoch();
   // console.log("epoch",parseInt(card.epoch._hex))
 
@@ -16,7 +23,7 @@ function Card({ card,signer}) {
   if(parseInt(card.epoch._hex) === epoch) {
     return (
       <div>
-        <OpenCard card={card} signer={signer} epoch={epoch} />
+        <OpenCard card={card} signer={signer} epoch={epoch} hasEntered={hasEntered} hasEnteredUp={hasEnteredUp} hasEnteredDown={hasEnteredDown} />
       </div>
     )
   }
@@ -24,7 +31,7 @@ function Card({ card,signer}) {
   if (parseInt(card.epoch._hex) === epoch-1) {
     return (
       <div>
-        <LiveCard card={card} />
+        <LiveCard card={card} hasEntered={hasEntered} hasEnteredUp={hasEnteredUp} hasEnteredDown={hasEnteredDown} />
       </div>
     )
   }
@@ -36,12 +43,13 @@ function Card({ card,signer}) {
     </div>
   )
   }
-
+  if(card.epoch > epoch){
   return (
     <div>
-      <SoonRoundCard   />
+      <SoonRoundCard  card={card}  />
     </div>
   )
+  }
 }
 
 export default Card

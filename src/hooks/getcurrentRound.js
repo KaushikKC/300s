@@ -10,7 +10,7 @@ const getCurentRound = () => {
     // useEffect( () => {
         const fetchRound = async () => {
           const round = await rounds[2];
-          console.log("round2",rounds[2])
+          // console.log("round2",rounds[2])
           setCurrentRound(round);
         };
     

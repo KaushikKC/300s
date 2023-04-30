@@ -10,7 +10,7 @@ const ETH_USD_TESTNET_PRICE_ID = [
   "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6"
 ]
 
-function LiveCard({ card}) {
+function LiveCard({ card, hasEntered, hasEnteredUp, hasEnteredDown}) {
   const [ethPrice, setETHPrice] = useState(0)
 
 

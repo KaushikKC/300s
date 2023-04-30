@@ -27,7 +27,7 @@ const StyledSwiper = styled.div`
 `
 
 function ListCard({signer, signerAddress}) {
-  const {rounds} = useSortedRounds();
+  // const {rounds} = useSortedRounds();
     const [components, setComponents] = useState([]);
     const [cards, setCards] = useState([]);
     const [OpenCard, setOpenCard] = useState();
@@ -121,18 +121,18 @@ function ListCard({signer, signerAddress}) {
 
       >
         <div className='flex flex-row-reverse'>
-      {rounds.length > 2 ?
+      {/* {rounds.length > 2 ?
       <div>
       {rounds.slice(0).reverse().map(round => (
         <SwiperSlide key={parseInt(round.epoch._hex) } >
-        <Card key={parseInt(round.epoch._hex)} card={round} signer={signer}  />
+        <Card key={parseInt(round.epoch._hex)} card={round} signer={signer} signerAddress={signerAddress}  />
         </SwiperSlide>
       ))}
-      </div> :
+      </div> : */}
       <div>
         <p>Loading</p>
       </div>
-      }
+      {/* } */}
       </div>
       </Swiper>
     </StyledSwiper>

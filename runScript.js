@@ -3,15 +3,30 @@ const { ethers, network, run } = require("hardhat");
 // import config from "../config";
  
 let roundTime = (180)*1000;
-let bufferTime = (100)*1000;
+let bufferTime = (120)*1000;
  
 async function callExec() {
   const PredictionsContract = await ethers.getContractFactory("PancakePredictionV2");
-  const predictionsContract = PredictionsContract.attach("0xF31a6C3a51033A7E3dc0295e3127BBa26611E102");
+  const predictionsContract = PredictionsContract.attach("0x844e1c18577956637afB3F02A6161706DcF325Ab");
   try {
     let response = await predictionsContract.executeRound();
     console.log(response)
-    // if()
+    try{
+      let recipt = await response.wait();
+      console.log("Transaction success");
+    } catch(e) {
+      console.log("Transaction failed");
+      return setTimeout(callExec, bufferTime / 10);
+    }
+    
+   
+    // console.log(recipt)
+    // if(recipt.status == 0) {
+    //   console.log("Transaction failed");
+    //   return setTimeout(callExec, bufferTime / 10);
+    // } else {
+    //   console.log("Transaction success");
+    // }
  
   } catch(e) {
     console.log(e.message);
@@ -21,7 +36,7 @@ async function callExec() {
   }
  
   // console.log(response)
-  setTimeout(callExec, roundTime + 30000);
+  setTimeout(callExec, roundTime + 10000);
 }
  
 setTimeout(callExec, roundTime);
