@@ -26,16 +26,24 @@ function OpenCard({ card, signer,epoch, hasEntered, hasEnteredUp, hasEnteredDown
   const bearbet = async () => { 
     const wei = toWei(amount)
     await Contract.connect(signer).betBear(epoch,{value:parseInt(wei._hex)})
+    setFlip(!flip)
   }
 
   const bullbet = async () => { 
     const wei = toWei(amount)
     console.log(parseInt(wei._hex))
     await Contract.connect(signer).betBull(epoch,{value:parseInt(wei._hex)})
+    setFlip(!flip)
   }
   return (
     <ReactCardFlip isFlipped={flip}>
-    <div className='h-[410px] w-[300px] border'>
+    {
+      hasEntered ?
+      <div className='h-[410px] w-[300px] border'>
+        <p className='border-blue-500 px-3 py-2'>Entered Your Bit</p>
+      </div>
+      :
+      <div className='h-[410px] w-[300px] border'>
         <div className='flex justify-between mx-3 mt-4 font-semibold text-lg'>
         <p>Open Front Card</p>
         {/* <button onClick={() => setFlip(!flip)}>Flip</button> */}
@@ -48,6 +56,8 @@ function OpenCard({ card, signer,epoch, hasEntered, hasEnteredUp, hasEnteredDown
           <button onClick={() => betposition('DOWN')} className='px-10 py-5 bg-red-500 text-white'>DOWN</button>
         </div>
     </div>
+    }
+    
     <div className='h-[410px] w-[300px] border'>
       {bet === 'UP' ?
       <div>

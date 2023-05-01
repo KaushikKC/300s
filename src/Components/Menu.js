@@ -30,7 +30,7 @@ function Menu() {
 
   return (
     <div className='w-[250px]'>
-        <div className='flex bg-yellow-300 w-[]'>
+        <div className='flex bg-yellow-300 py-2 ml-5 mt-4 rounded-xl font-semibold w-[]'>
             <img src={eth} alt="" />
             <div className='flex flex-row'>
                 <h1>ETH/USD : </h1>

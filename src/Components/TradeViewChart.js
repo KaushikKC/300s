@@ -8,6 +8,8 @@ const style = {
     position: "absolute",
     bottom: 0,
     width: "100%",
+    marginTop: "10px",
+    // borderTop: "10px solid #111",
     // alignItems: "center",
     // justifyContent: "center",
     // border: "solid 1px #ddd",
@@ -71,7 +73,7 @@ export default function TradingViewWidget() {
     
 
     <div className='tradingview-widget-container w-full h-full'>
-    <div className="h-[1.5vw] bg-slate-200 cursor-row-resize flex justify-center items-center absolute bottom-0 left-0 right-0 border-t border-violet-500"><div className="w-[10vw] h-[0.6vw] bg-violet-500 rounded-lg"></div></div>
+    <div className="h-[1vw] bg-slate-200 cursor-row-resize flex justify-center items-center absolute bottom-0 left-0 right-0 border-t border-violet-500"><div className="w-[10vw] h-[0.6vw] bg-violet-500 rounded-lg"></div></div>
       <div id='tradingview_2a3f9' className='h-full w-full' />
       {/* <div className="tradingview-widget-copyright">
         <a href="https://www.tradingview.com/symbols/ETHUSD/?exchange=BINANCE" rel="noopener" target="_blank"><span className="blue-text">Ethereum chart</span></a> by TradingView

@@ -12,7 +12,7 @@ const ETH_USD_TESTNET_PRICE_ID = [
 
 function LiveCard({ card, hasEntered, hasEnteredUp, hasEnteredDown}) {
   const [ethPrice, setETHPrice] = useState(0)
-
+  
 
   useEffect(() => {
    async function run() {
@@ -30,6 +30,11 @@ function LiveCard({ card, hasEntered, hasEnteredUp, hasEnteredDown}) {
         <p>Live Card</p>
       
         </div>
+        {hasEntered && 
+          <>
+          <p>Entered: {hasEnteredUp ? "UP" : "Down"}</p>
+          </>
+        }
         <div>
           <p>Last Price ${(ethPrice?.price / 100000000).toFixed(4)}</p>
         <p>Lock Price {parseInt(card.lockPrice._hex)}</p>

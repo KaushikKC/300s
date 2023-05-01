@@ -7,12 +7,12 @@ import SoonRoundCard from './SoonRoundCard';
 
 function Card({ card,signer,signerAddress}) {
   const ledger = getBets(parseInt(card.epoch._hex),signerAddress)
-  const hasEntered = ledger ? parseInt(ledger.amount?._hex) != 0 : false
-  const hasEnteredUp = hasEntered && ledger.position === 0;
-  const hasEnteredDown = hasEntered && ledger.position === 1;
+  const hasEntered = ledger ? parseInt(ledger.bet?.amount?._hex) != 0 && ledger.bet != undefined  : false
+  const hasEnteredUp = hasEntered && ledger.bet?.position === 0;
+  const hasEnteredDown = hasEntered && ledger.bet?.position === 1;
   // console.log("card",card)
-  // console.log("ledger",ledger)
-  // console.log("hasEntered",hasEntered)
+  console.log("ledger",ledger)
+  console.log("hasEntered",hasEntered)
   const {epoch} = usecurrentEpoch();
   // console.log("epoch",parseInt(card.epoch._hex))
 

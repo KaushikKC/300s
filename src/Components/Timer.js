@@ -188,15 +188,11 @@ const useCountdown = ( timestamp) => {
   
   return (
     <StyledTimer>
-        <div className="timer flex w-[110px] px-3 rounded-xl bg-slate-300 absolute top-2 h-[30px]">
+        <div className="timer flex px-5 py-3 rounded-3xl bg-slate-300 absolute top-[7rem] right-10 ">
           {/* {timerSeconds > 0 ? ( */}
-            <p className="value">{secondsRemaining < 0 ? "Closing" : secondsRemaining } </p>
-{/* //           ) : (
-//             <p className="value">0</p>
-//           )
-// } */}
+            <p className="value">{secondsRemaining < 0 | secondsRemaining === NaN ? "Closing" : secondsRemaining } </p>
         {/* // <p className="value">{timerSeconds} </p> */}
-        <p className="text"> seconds</p>
+        <p className="text font-semibold"> seconds</p>
       </div>
     </StyledTimer>
   )

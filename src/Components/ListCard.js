@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import ReactLoading from 'react-loading';
 import Card from './Card';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -27,7 +28,7 @@ const StyledSwiper = styled.div`
 `
 
 function ListCard({signer, signerAddress}) {
-  // const {rounds} = useSortedRounds();
+  const {rounds} = useSortedRounds();
     const [components, setComponents] = useState([]);
     const [cards, setCards] = useState([]);
     const [OpenCard, setOpenCard] = useState();
@@ -120,20 +121,24 @@ function ListCard({signer, signerAddress}) {
         resizeObserver
 
       >
-        <div className='flex flex-row-reverse'>
-      {/* {rounds.length > 2 ?
+        
+      {rounds.length > 2 ?
       <div>
+        <div className='flex flex-row-reverse'>
       {rounds.slice(0).reverse().map(round => (
         <SwiperSlide key={parseInt(round.epoch._hex) } >
         <Card key={parseInt(round.epoch._hex)} card={round} signer={signer} signerAddress={signerAddress}  />
         </SwiperSlide>
       ))}
-      </div> : */}
-      <div>
-        <p>Loading</p>
       </div>
-      {/* } */}
+      </div> :
+      
+      <div className='flex flex-col h-[600px] justify-center items-center'>
+        <ReactLoading type='spinningBubbles' color='#111' height={120} width={120} />
+        <p className='font-bold text-xl mt-5'>Loading</p>
       </div>
+}
+    
       </Swiper>
     </StyledSwiper>
   )
