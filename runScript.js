@@ -1,66 +1,51 @@
 // import { parseEther } from "ethers/lib/utils";
+const { EvmPriceServiceConnection } = require("@pythnetwork/pyth-evm-js");
 const { ethers, network, run } = require("hardhat");
+const { useState } = require("react");
 // import config from "../config";
  
 let roundTime = (180)*1000;
-let bufferTime = (120)*1000;
-// let postnow;
+let bufferTime = (150)*1000;
+
+const TESTNET_PRICE_SERVICE = "https://xc-testnet.pyth.network"
+
+const testnetConnection = new EvmPriceServiceConnection(TESTNET_PRICE_SERVICE)
+
+const ETH_USD_TESTNET_PRICE_ID = [
+  "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6"
+]
+
+let price = 0;
  
 async function callExec() {
-  const PredictionsContract = await ethers.getContractFactory("PancakePredictionV2");
-  const predictionsContract = PredictionsContract.attach("0xf228a2036010a21381123B68e31Ba3ca2711FECA");
+  
+  const PredictionsContract = await ethers.getContractFactory("ThreeHundredSeconds");
+  const predictionsContract = PredictionsContract.attach("0xb06e2c050e95f084D2A83DdC23B56B501E3C3A2D");
+  
   try {
-    let response = await predictionsContract.executeRound();
+    testnetConnection.subscribePriceFeedUpdates(ETH_USD_TESTNET_PRICE_ID, async (priceFeed) => {
+          price = await priceFeed.getPriceNoOlderThan(60);
+      })
+      let date = new Date();
+      let timestamp = Math.floor(Date.now() / 1000);
+    let response = await predictionsContract.executeRound(price?.price,timestamp);
     console.log(response)
     try{
-      // let prenow = Math.floor(Date.now() / 1000);
       let recipt = await response.wait();
       console.log("Transaction success");
-      // postnow = (Math.floor(Date.now() / 1000) - prenow) * 1000 ;
-      // console.log("postnow",postnow)
     } catch(e) {
       console.log("Transaction failed");
       return setTimeout(callExec, bufferTime / 10);
     }
-    
-   
-    // console.log(recipt)
-    // if(recipt.status == 0) {
-    //   console.log("Transaction failed");
-    //   return setTimeout(callExec, bufferTime / 10);
-    // } else {
-    //   console.log("Transaction success");
-    // }
- 
   } catch(e) {
     console.log(e.message);
     if(e.message.indexOf("Can only lock round within bufferSeconds") > -1) return setTimeout(callExec, bufferTime / 10);
     if(e.message.indexOf("Can only lock round after lockTimestamp") > -1) return setTimeout(callExec, bufferTime / 10);
+    return setTimeout(callExec, bufferTime / 10);
  
   }
  
-  // console.log(response)
-  setTimeout(callExec, roundTime  + 10000 );
+  setTimeout(callExec, roundTime  + 5000 );
 }
  
 setTimeout(callExec, roundTime);
-// const CONTACT_ABI = require('./src/context/config');
-// const { ethers } = require('ethers');
-
-
-// const provider = new ethers.providers.JsonRpcProvider('http://localhost:8545'); // connect to local Ethereum node
-// const contractAddress = '0x1F34Ea2Ad60b2c2850877f59770F13accA552A3c'; // replace with contract address
-// const contractAbi = CONTACT_ABI; // replace with contract ABI
-
-// const wallet = new ethers.Wallet('private-key', provider); // replace with your private key
-// const contractInstance = new ethers.Contract(contractAddress, contractAbi, wallet);
-
-// const functionToRun = contractInstance.functions.executeRound(); // replace with the function you want to run
-
-// const interval = 181 * 1000; // repeat every 60 seconds (adjust as needed)
-
-// setInterval(() => {
-//   functionToRun().then((tx) => {
-//     console.log(tx.hash); // log the transaction hash
-//   });
-// }, interval);

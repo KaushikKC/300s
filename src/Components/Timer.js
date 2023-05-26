@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useSortedRounds, usecurrentEpoch } from '../hooks/CustomHooks';
 import {getCurrentTimeStamp} from '../hooks/getCurrentTimeStamp';
 import { getCurentRound } from '../hooks/getcurrentRound';
+import { useCountdown } from 'react-countdown-circle-timer';
 // import useCountdown from '../hooks/useCountdown';
 
 const StyledTimer = styled.div`
@@ -13,6 +14,7 @@ const StyledTimer = styled.div`
   }
   
 `
+// console.log("CurrentRound",getCurentRound())
 
 const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
@@ -121,6 +123,8 @@ const getSecondsRemainingToNow = (timestamp) => {
   return  timestamp - now ;
 }
 
+
+
 const useCountdown = ( timestamp) => {
   const timerCancelRef = useRef(null)
   // console.log("timestamp",timestamp)
@@ -188,14 +192,14 @@ const useCountdown = ( timestamp) => {
   
   return (
     <StyledTimer>
-        <div className="timer flex px-5 py-3 rounded-3xl bg-slate-300 absolute top-[7rem] right-10 ">
+        <div className="timer flex px-5 py-3 w-[190px] justify-center rounded-3xl bg-slate-300 absolute top-[7rem] right-10 ">
           {/* {timerSeconds > 0 ? ( */}
-            <p className="value">{secondsRemaining < 0 | secondsRemaining === NaN ? "Closing" : secondsRemaining } </p>
+            <p className="value font-semibold">{secondsRemaining < 0 | secondsRemaining === NaN ? "Closing" : secondsRemaining+ " Seconds" } </p>
         {/* // <p className="value">{timerSeconds} </p> */}
-        <p className="text font-semibold"> seconds</p>
+        {/* <p className="text font-semibold"> seconds</p> */}
       </div>
     </StyledTimer>
   )
 }
 
-export default Timer
+export {Timer, useCountdown};

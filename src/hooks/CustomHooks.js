@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react';
 import { CONTACT_ABI, CONTACT_ADDRESS } from '../context/config';
+import { fromUnixTime } from 'date-fns';
 const ethers = require("ethers")
 
 
-const provider =  new ethers.providers.JsonRpcProvider("https://sepolia.infura.io/v3/9513cafc604b4355a04f38bcc71b8a84")
+// const provider =  new ethers.providers.JsonRpcProvider("https://sepolia.infura.io/v3/9513cafc604b4355a04f38bcc71b8a84")
+const provider =  new ethers.providers.JsonRpcProvider("https://testnet.era.zksync.dev")
+// const provider =  new ethers.providers.JsonRpcProvider("https://goerli-rollup.arbitrum.io/rpc")
 const Contract = new ethers.Contract(CONTACT_ADDRESS, CONTACT_ABI, provider);
+
+ 
+
 
 const usecurrentEpoch = () => {
     const [epoch, setEpoch] = useState(0);
@@ -13,13 +19,21 @@ const usecurrentEpoch = () => {
             const epoch = await Contract.currentEpoch();
             setEpoch(parseInt(epoch._hex));
         };
-        getEpoch();
-    })
 
+        Contract.on('epochUpdate', getEpoch);
+
+        getEpoch();
+
+        return () => {
+          Contract.off('epochUpdate', getEpoch);
+    };
+
+    },[] )
+    
     return {epoch};
 }
 
-const useSortedRounds = () => {
+const useSortedRounds = () =>{
     const [rounds, setRounds] = useState([]);
 
   const { epoch } = usecurrentEpoch();
@@ -32,7 +46,7 @@ const useSortedRounds = () => {
         if (epoch - i <= 0) {
           break;
         }
-
+        // console.log("epoch",epoch - i )
         const roundData = await Contract.rounds(epoch - i);
         fetchedRounds.push(Object.assign({}, roundData));
       }
@@ -80,19 +94,47 @@ const useSortedRounds = () => {
 const getBets = (epoch, address) => {
   const [bet,setBet] = useState()
 
-  useEffect(() => {
+  useEffect( () => {
     const fetchBets = async () => {
       let betinfo = await Contract.ledger(epoch,address)
       setBet(betinfo)
     }
+    Contract.on('BetBear', fetchBets);
+    Contract.on('BetBull', fetchBets);
     fetchBets()
-  })
+
+    return () => {
+      Contract.off('BetBear', fetchBets);
+      Contract.off('BetBull', fetchBets);
+    };
+
+  },[])
 
   return {bet}
 }
 
+
+
 const getContract = () => {
     return {Contract};
+}
+
+const getClaimable  = (epoch,address) => {
+  const [claimable,setClaimable] = useState()
+
+  useEffect(() => {
+    const fetchClaimable = async () => {
+      let claimableinfo = await Contract.claimable(epoch,address)
+      setClaimable(claimableinfo)
+    }
+    Contract.on('Claim', fetchClaimable);
+    fetchClaimable()
+    return () => {
+      Contract.off('Claim', fetchClaimable);
+    }
+  },[epoch,address])
+
+  return {claimable}
 }
 
 // const getCurentRound = () => {
@@ -145,6 +187,6 @@ const getProvider = () => {
     return {provider};
 }
 
-export {usecurrentEpoch,useSortedRounds,getContract, getProvider,getBets};
+export {usecurrentEpoch,useSortedRounds,getContract, getProvider,getBets,getClaimable};
 // export default useSortedRounds;
 // export default usecurrentEpoch;
