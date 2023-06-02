@@ -13,6 +13,10 @@ function PastCard({ card}) {
   let PoolPrice = ethers.utils.formatUnits(parseInt(card.totalAmount._hex).toString()) 
   let {claimable} = getClaimable(parseInt(card.epoch._hex),address)
   const {Contract} = getContract();
+  let BullAmount = ethers.utils.formatUnits(parseInt(card.bullAmount._hex).toString())
+  let BearAmount = ethers.utils.formatUnits(parseInt(card.bearAmount._hex).toString())
+  let top =  PoolPrice / BullAmount 
+  let bottom = PoolPrice /BearAmount
   // console.log("card",parseInt(card.epoch._hex))
   // console.log("claimable",claimable)
 
@@ -43,14 +47,24 @@ function PastCard({ card}) {
             <button onClick={getClaimed} className='px-4 py-2 flex  bg-black text-white my-3 rounded-xl font-semibold'>Claim Your Rewards</button>
           </div>
         }
-        <div className='mt-7 flex'>
+        <div className='mt-4 flex flex-col items-center'>
+        <div className='px-2 py-1 bg-green-300 rounded-lg flex flex-col items-center'>
+            <p>UP</p>
+            <p>{top > 0 ? top.toFixed(2)  : '0.00' }x</p>
+          </div>
           <div className='ml-3 space-y-2'>
         <p> <span className='font-semibold'>Close Price:</span>  {closePrice}</p>
         <p><span className='font-semibold'>Lock Price:</span> {lockPrice}</p>
         <p><span className='font-semibold'>Pool Price:</span><br /> {Number(PoolPrice).toFixed(12)} ETH</p>
         </div>
+        
         <div>
+
         <p className={`ml-3 ${differnce > 0 ? 'bg-green-500' : 'bg-red-500'} p-2`}>{differnce}</p>        
+        <div className='px-2 py-1 bg-red-500 rounded-lg flex flex-col items-center'>
+          <p>Down</p>
+          <p>{bottom > 0 ? bottom.toFixed(2) : '0.00'}x</p>
+        </div>
         </div>
         {/* <p>#{number}</p> */}
         </div>

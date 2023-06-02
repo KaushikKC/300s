@@ -18,7 +18,16 @@ function OpenCard({ card,signerAddress, signer,epoch, hasEntered, hasEnteredUp, 
   const { address, connector, isConnected } = useAccount()
   const publicClient = usePublicClient()
   const { data: balance } = useBalance({address: address})
-
+  let PoolPrice = ethers.utils.formatUnits(parseInt(card.totalAmount._hex).toString()) 
+  let BullAmount = ethers.utils.formatUnits(parseInt(card.bullAmount._hex).toString())
+  let BearAmount = ethers.utils.formatUnits(parseInt(card.bearAmount._hex).toString())
+  let top =  PoolPrice / BullAmount 
+  let bottom = PoolPrice / BearAmount
+  // console.log("PoolPrice",parseInt(PoolPrice))
+  // console.log("BullAmount",BullAmount)
+  // console.log("top",top)
+  // console.log("bottom",bottom)
+  // console.log("card",card)
 
   const betposition = (position) => {
     if(walletClient === undefined) {
@@ -83,6 +92,10 @@ function OpenCard({ card,signerAddress, signer,epoch, hasEntered, hasEnteredUp, 
       hasEntered && isConnected ?
       <div className=' mx-auto  flex-col justify-center items-center  text-white hex drop-shadow-xl'>
         <div className='flex flex-col justify-center items-center h-full'>
+        <div className='px-2 py-1 bg-green-300 rounded-lg flex flex-col items-center'>
+            <p>UP</p>
+            <p>{top > 0 ? top.toFixed(2)  : '0.00' }x</p>
+          </div>
         {
           hasEnteredUp ?
           <div className='flex flex-col mt-[-40px] justify-center items-center'>
@@ -100,6 +113,10 @@ function OpenCard({ card,signerAddress, signer,epoch, hasEntered, hasEnteredUp, 
 
           </div>
         }
+        <div className='px-2 py-1 bg-red-500 rounded-lg flex flex-col items-center'>
+          <p>Down</p>
+          <p>{bottom > 0 ? bottom.toFixed(2) : '0.00'}x</p>
+        </div>
         
         </div>
       </div>
@@ -110,13 +127,23 @@ function OpenCard({ card,signerAddress, signer,epoch, hasEntered, hasEnteredUp, 
         <p>Open Front Card</p>
         
         </div>
-        <div className='flex justify-center my-5'>
+        <div className='flex flex-col items-center '>
+        <div className='px-2 py-1 bg-green-300 rounded-lg flex flex-col items-center'>
+            <p>UP</p>
+            <p>{top > 0 ? top.toFixed(2)  : '0.00' }x</p>
+          </div>
+        <div className='flex justify-center my-3'>
           <button onClick={ () => betposition('UP') } className='px-10 py-5 bg-green-500 rounded-lg text-white'>UP</button>
           
         </div>
-        <div className='flex justify-center my-5'>
+        <div className='flex justify-center my-3'>
           <button onClick={() => betposition('DOWN')} className='px-10 py-5 bg-red-500 rounded-lg text-white'>DOWN</button>
   
+        </div>
+        <div className='px-2 py-1 bg-red-500 rounded-lg flex flex-col items-center'>
+          <p>Down</p>
+          <p>{bottom > 0 ? bottom.toFixed(2) : '0.00'}x</p>
+        </div>
         </div>
     </div>
     }

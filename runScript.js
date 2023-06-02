@@ -4,7 +4,7 @@ const { ethers, network, run } = require("hardhat");
 const { useState } = require("react");
 // import config from "../config";
  
-let roundTime = (180)*1000;
+let roundTime = (300)*1000;
 let bufferTime = (150)*1000;
 
 const TESTNET_PRICE_SERVICE = "https://xc-testnet.pyth.network"

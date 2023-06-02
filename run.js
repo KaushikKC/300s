@@ -8,7 +8,7 @@ let date = new Date();
 let timestamp = Math.floor(Date.now() / 1000);
 // let response = await predictionsContract.unpause();
 // let response = await predictionsContract.genesisStartRound(timestamp);
-let response = await predictionsContract.genesisLockRound(0,timestamp);
+let response = await predictionsContract.executeRound(18862345,timestamp);
 
     console.log(response)
     try{
