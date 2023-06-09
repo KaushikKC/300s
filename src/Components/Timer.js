@@ -192,7 +192,7 @@ const useCountdown = ( timestamp) => {
   
   return (
     <StyledTimer>
-        <div className="timer flex px-5 py-3 w-[190px] justify-center rounded-3xl bg-slate-300 absolute top-[7rem] right-10 ">
+        <div className="timer flex px-5 py-3 w-[100px] md:w-[190px] justify-center rounded-3xl bg-slate-300 absolute top-[7rem] right-10 ">
           {/* {timerSeconds > 0 ? ( */}
             <p className="value font-semibold">{secondsRemaining < 0 | secondsRemaining === NaN ? "Closing" : secondsRemaining+ " Seconds" } </p>
         {/* // <p className="value">{timerSeconds} </p> */}

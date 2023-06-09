@@ -49,18 +49,18 @@ function Navbar() {
         position='top-right'
       />
     
-    <div className='flex  px-4'>
+    <div className='flex pl-4 md:px-4'>
       
-      <div className='mt-3 p-4 ml-5 font-bold text-2xl text-white'>
+      <div className='mt-3 md:p-4 py-4 md:ml-5 font-bold text-xl md:text-2xl text-white'>
         <h1>300S</h1>
       </div>
       <div className='mt-4 ml-auto mr-2 flex'>
-        <div className='px-3 py-2 h-10 mt-2 w-[220px] items-center flex justify-center capitalize bg-amber-300 z-[15] mr-6 font-semibold cursor-pointer rounded-xl' onClick={() => setSwitch(!Switch)}>
+        <div className='px-3 py-4 h-10 mt-2 w-[110px] md:w-[220px] items-center text-center text-[10px] md:text-[15px] flex justify-center capitalize bg-amber-300 z-[15] mr-4 md:mr-6 font-semibold cursor-pointer rounded-xl' onClick={() => setSwitch(!Switch)}>
           <p>{isConnected ? chain?.name : "No Networks"}</p>
-          <MdOutlineArrowDropDown />
+          <MdOutlineArrowDropDown className='text-[25px]'/>
         </div>
         {Switch && isConnected &&
-        <div className='flex flex-col absolute h-[180px] top-[60px] z-10 w-[210px] ml-1 bg-amber-600  text-white pt-4  rounded-b-xl justify-evenly font-semibold'>
+        <div className='flex flex-col absolute h-[200px] md:h-[180px] top-[60px] z-10 w-[170px] md:w-[210px] ml-[-25px] rounded-lg md:ml-1 bg-amber-600  text-white pt-4  rounded-b-xl justify-evenly font-semibold'>
           {chains.map((x) => (
             <button
               disabled={!switchNetwork || x.id === chain?.id}
@@ -76,8 +76,8 @@ function Navbar() {
           </div>
         }
       {!isConnected ?
-      <button className='cursor-pointer h-12 sm:px-3 sm:py-1  md:px-5 mt-1 md:py-3 bg-orange-800 text-white font-semibold rounded-xl' onClick={() => setPopup(true)}>Connect</button> 
-          : <button className='h-12 sm:px-3 sm:py-1  md:px-5 mt-1 md:py-3 bg-orange-800 text-white font-semibold rounded-xl' onClick={disconnect}>{address.slice(0,4)+ '....' + address.slice(-4)}</button>
+      <button className='cursor-pointer h-12 px-3 sm:py-1  md:px-5 mt-1 md:py-3 bg-orange-800 text-white font-semibold rounded-xl' onClick={() => setPopup(true)}>Connect</button> 
+          : <button className='h-12 px-3 sm:py-1  md:px-5 mt-1 md:py-3 bg-orange-800 text-white font-semibold rounded-xl' onClick={disconnect}>{address.slice(0,4)+ '....' + address.slice(-4)}</button>
         } 
         </div>
         {

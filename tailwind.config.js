@@ -11,6 +11,9 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    screens: {
+      'md': '620px'
+    },
     extend: {},
   },
   plugins: [],
