@@ -6,9 +6,9 @@ const predictionsContract = PredictionsContract.attach("0xb06e2c050e95f084D2A83D
 
 let date = new Date();
 let timestamp = Math.floor(Date.now() / 1000);
-// let response = await predictionsContract.unpause();
+let response = await predictionsContract.pause();
 // let response = await predictionsContract.genesisStartRound(timestamp);
-let response = await predictionsContract.genesisLockRound(0,timestamp);
+// let response = await predictionsContract.genesisLockRound(0,timestamp);
 
     console.log(response)
     try{
